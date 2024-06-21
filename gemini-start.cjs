@@ -5,7 +5,7 @@ const API_KEY = process.env.GEMINI_API_KEY;
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-001"}); // For Function Calling
 async function run() {
 const prompt = "Why is the sky blue?";
 const result = await model.generateContent(prompt);
