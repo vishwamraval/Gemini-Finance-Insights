@@ -14,19 +14,19 @@ export default function Navbar() {
       </div>
       <div>
         <button
-          className="text-text_primary hover:text-accent_light duration-300 px-5"
-          onClick={() => router.navigate("/login")}
+          className="text-text_primary duration-300 px-5 hover:bg-accent rounded-lg"
+          onClick={() => router.navigate("/about")}
         >
           About
         </button>
         <button
-          className="text-text_primary hover:text-accent_light duration-300 px-5"
+          className="text-text_primary duration-300 px-5 hover:bg-accent rounded-lg"
           onClick={() => router.navigate("/login")}
         >
           Try it now
         </button>
         <button
-          className="bg-secondary text-text_primary p-2 rounded-lg hover:bg-accent hover:text-accent_light duration-300 px-5"
+          className="bg-secondary text-text_primary px-5 rounded-lg hover:bg-accent duration-300 px-5 mt-4"
           onClick={() => router.navigate("/login")}
         >
           Login
