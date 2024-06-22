@@ -1,3 +1,3 @@
-# Gemini-Finance-Insights
+# Gemini Finance Insights
 
-Interactive Stock Analysis with Gemini &amp; Yahoo Finance API  Explore financial data, visualize trends, and gain risk insights using AI.  This project combines Gemini's NLP with Yahoo Finance data to create interactive charts, risk assessments, and more.
+Interactive Stock Analysis with Gemini: Explore financial data, visualize trends, and gain risk insights using AI.  This project combines Gemini's LLM capabilities and stock market API (TBD) data to create interactive charts, risk assessments, and more.
