@@ -1,10 +1,14 @@
 // Login page
 import { router } from "../main.tsx";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+
 export default function Login() {
   return (
-    <div>
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">
+    <div className="flex items-center justify-center h-screen bg-primary">
+      <div className="bg-accent_light p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center text-text_primary">
           {" "}
           Login{" "}
         </h1>
@@ -23,7 +27,7 @@ export default function Login() {
           />
         </div>
         <button
-          className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors"
+          className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors"
           onClick={() => {
             console.log("Login button clicked");
             // route to dashboard
@@ -32,7 +36,41 @@ export default function Login() {
         >
           Login
         </button>
+        <p className="text-center mt-4 text-text_primary">
+          Don't have an account?{" "}
+          <span
+            className="text-text_primary cursor-pointer weight-bold hover:underline decoration-dotted	"
+            onClick={() => {
+              // route to register
+              router.navigate("/register");
+            }}
+          >
+            Register
+          </span>
+        </p>
+        <button
+          className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors mt-4"
+          onClick={loginWithGoogle}
+        >
+          <FontAwesomeIcon icon={faGoogle} className="mr-2" />
+          Login with Google
+        </button>
       </div>
     </div>
   );
+}
+
+async function loginWithGoogle() {
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log(result);
+    // route to dashboard
+    if (result.user) {
+      router.navigate("/dashboard");
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -25,7 +25,7 @@ async function run() {
     
     const msg = "How many pets do I have?"
     const result = await chat.sendMessageStream(msg);
-  
+
     let text = '';
     for await (const chunk of result.stream) {
       const chunkText = chunk.text();
