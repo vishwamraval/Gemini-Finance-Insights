@@ -1,7 +1,11 @@
 // Register user page
 import { useState } from "react";
 import { router } from "../main.tsx";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 export default function Register() {
   const [formValues, setFormValues] = useState({
@@ -40,69 +44,126 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      {/* First Name */}
-      <label htmlFor="first_name">First Name</label>
-      <input
-        type="text"
-        id="first_name"
-        name="firstName"
-        placeholder="First Name"
-        value={formValues.firstName}
-        onChange={handleChange}
-      />
-      {/* Last Name */}
-      <label htmlFor="last_name">Last Name</label>
-      <input
-        type="text"
-        id="last_name"
-        name="lastName"
-        placeholder="Last Name"
-        value={formValues.lastName}
-        onChange={handleChange}
-      />
-      {/* Email */}
-      <label htmlFor="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        value={formValues.email}
-        onChange={handleChange}
-      />
-      {/* Password */}
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Password"
-        value={formValues.password}
-        onChange={handleChange}
-      />
-      {/* Confirm Password */}
-      <label htmlFor="confirm_password">Confirm Password</label>
-      <input
-        type="password"
-        id="confirm_password"
-        name="confirmPassword"
-        placeholder="Confirm Password"
-        value={formValues.confirmPassword}
-        onChange={handleChange}
-      />
-      {/* Accept T&C */}
-      <label htmlFor="accept_tnc">Accept Terms & Conditons</label>
-      <input
-        type="checkbox"
-        id="accept_tnc"
-        name="acceptTnc"
-        checked={formValues.acceptTnc}
-        onChange={handleChange}
-      />
-      {/* Register Button */}
-      <button onClick={handleRegister}>Register</button>
+    <div className="flex items-center justify-center h-screen bg-primary">
+      <div className="bg-accent_light p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center text-text_primary">
+          Register
+        </h1>
+        {/* First Name */}
+        <div className="flex mb-4">
+          <div className="mr-2">
+            <label
+              htmlFor="first_name"
+              className="text-text_primary font-semibold mb-2 block"
+            >
+              First Name
+            </label>
+            <input
+              name="firstName"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="First Name"
+              type="text"
+              value={formValues.firstName}
+              onChange={handleChange}
+            />
+          </div>
+          {/* Last Name */}
+          <div>
+            <label
+              htmlFor="last_name"
+              className="text-text_primary font-semibold mb-2 block"
+            >
+              Last Name
+            </label>
+            <input
+              name="lastName"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Last Name"
+              type="text"
+              value={formValues.lastName}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        <label
+          htmlFor="email"
+          className="text-text_primary font-semibold mb-2 block"
+        >
+          Email
+        </label>
+        <div className="mb-4">
+          <input
+            name="email"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            placeholder="Enter your email"
+            type="email"
+            value={formValues.email}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Password */}
+        <label
+          htmlFor="password"
+          className="text-text_primary font-semibold mb-2 block"
+        >
+          Password
+        </label>
+        <div className="mb-4">
+          <input
+            name="password"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            placeholder="Enter your password"
+            type="password"
+            value={formValues.password}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Confirm Password */}
+        <label
+          htmlFor="confirm_password"
+          className="text-text_primary font-semibold mb-2 block"
+        >
+          Confirm Password
+        </label>
+        <div className="mb-4">
+          <input
+            name="confirmPassword"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+            placeholder="Enter your password"
+            type="password"
+            value={formValues.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
+        {/* Accept T&C */}
+        <div className="flex items-center mb-4">
+          <input
+            name="acceptTnc"
+            id="link-checkbox"
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={formValues.acceptTnc}
+            onChange={handleChange}
+          />
+          <label
+            htmlFor="link-checkbox"
+            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            I agree with the{" "}
+            <a href="#" className="text-text_primary dark hover:underline">
+              Terms and Conditions
+            </a>
+            .
+          </label>
+        </div>
+        {/* Register Button */}
+        <button
+          onClick={handleRegister}
+          className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors"
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 }
@@ -114,9 +175,9 @@ async function registerUser(email: string, password: string) {
       // Signed up
       const user = userCredential.user;
       // Save first name, last name, etc. to user profile
-
       console.log(user);
-      // ...
+      // send email verification
+      sendEmailVerification(user);
     })
     .catch((error) => {
       const errorCode = error.code;

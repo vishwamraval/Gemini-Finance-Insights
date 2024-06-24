@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import Dashboard from "./pages/dashboard.tsx";
 import Register from "./pages/register.tsx";
 import Login from "./pages/login.tsx";
+import PasswordReset from "./pages/password_reset.tsx";
 import NotFound from "./pages/404_not_found.tsx";
 import About from "./pages/about_us.tsx";
 import "./index.css";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/forgot-password",
+    element: <PasswordReset />,
   },
   {
     path: "*",

@@ -15,27 +15,41 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const handleChange = (e: {
+    target: { name: any; value: any; type: any; checked: any };
+  }) => {
+    const { name, value, type, checked } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
   return (
     <div className="flex items-center justify-center h-screen bg-primary">
       <div className="bg-accent_light p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-center text-text_primary">
-          {" "}
-          Login{" "}
+          Login
         </h1>
         <div className="mb-4">
           <input
+            name="email"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
             placeholder="Enter your email"
             type="email"
             value={formValues.email}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-6">
           <input
+            name="password"
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
             placeholder="Enter your password"
             type="password"
             value={formValues.password}
+            onChange={handleChange}
           />
         </div>
         <button
@@ -44,16 +58,26 @@ export default function Login() {
             console.log("Login button clicked");
             // Validate email and password
             loginUser(formValues.email, formValues.password);
-            // route to dashboard
-            router.navigate("/dashboard");
           }}
         >
           Login
         </button>
+        {/* Forgot Password */}
+        <p className="text-center mt-4 text-text_primary">
+          <span
+            className="text-text_primary cursor-pointer weight-bold hover:underline decoration-dotted"
+            onClick={() => {
+              // route to forgot password
+              router.navigate("/forgot-password");
+            }}
+          >
+            Forgot Password?
+          </span>
+        </p>
         <p className="text-center mt-4 text-text_primary">
           Don't have an account?{" "}
           <span
-            className="text-text_primary cursor-pointer weight-bold hover:underline decoration-dotted	"
+            className="text-text_primary cursor-pointer weight-bold hover:underline decoration-dotted"
             onClick={() => {
               // route to register
               router.navigate("/register");
@@ -99,9 +123,12 @@ async function loginUser(email: string, password: string) {
       password
     );
     console.log(userCredential);
-    // route to dashboard
-    router.navigate("/dashboard");
+    // route to dashboard if correct email and password
+    if (userCredential.user) {
+      router.navigate("/dashboard");
+    }
   } catch (error) {
     console.error(error);
+    alert(error);
   }
 }
