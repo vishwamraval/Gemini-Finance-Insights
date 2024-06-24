@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import Dashboard from "./pages/dashboard.tsx";
+import Register from "./pages/register.tsx";
 import Login from "./pages/login.tsx";
 import NotFound from "./pages/404_not_found.tsx";
 import About from "./pages/about_us.tsx";
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/login",

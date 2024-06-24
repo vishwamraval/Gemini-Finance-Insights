@@ -1,10 +1,20 @@
 // Login page
+import { useState } from "react";
 import { router } from "../main.tsx";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
   return (
     <div className="flex items-center justify-center h-screen bg-primary">
       <div className="bg-accent_light p-8 rounded-lg shadow-md w-full max-w-md">
@@ -17,6 +27,7 @@ export default function Login() {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
             placeholder="Enter your email"
             type="email"
+            value={formValues.email}
           />
         </div>
         <div className="mb-6">
@@ -24,12 +35,15 @@ export default function Login() {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
             placeholder="Enter your password"
             type="password"
+            value={formValues.password}
           />
         </div>
         <button
           className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors"
           onClick={() => {
             console.log("Login button clicked");
+            // Validate email and password
+            loginUser(formValues.email, formValues.password);
             // route to dashboard
             router.navigate("/dashboard");
           }}
@@ -70,6 +84,23 @@ async function loginWithGoogle() {
     if (result.user) {
       router.navigate("/dashboard");
     }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Check if the email, password exist in firebase
+async function loginUser(email: string, password: string) {
+  const auth = getAuth();
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log(userCredential);
+    // route to dashboard
+    router.navigate("/dashboard");
   } catch (error) {
     console.error(error);
   }

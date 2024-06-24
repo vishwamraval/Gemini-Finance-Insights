@@ -21,7 +21,7 @@ export default function NotFound() {
       <div className="flex items-center justify-center">
         <button
           className="bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors mt-4"
-          onClick={() => router.navigate("/home")}
+          onClick={() => router.navigate("/")}
         >
           <FontAwesomeIcon icon="house" className="mr-2" />
           Go to Home
