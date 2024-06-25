@@ -1,7 +1,6 @@
-//  Terms abd Conditions Modal
+//  Terms abd Conditions Modal, Get terms and conditions from terms.json file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import Modal from 'react-modal';
 
 export default function Terms() {
   return (
@@ -19,12 +18,7 @@ export default function Terms() {
           </button>
         </div>
         <div className="mt-4">
-          <p className="text-text_primary">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            tristique, nunc et ultricies lacinia, nunc metus ultricies justo,
-            nec fermentum nunc purus vel justo. Sed nec nunc at libero tincidunt
-            tincidunt
-          </p>
+          <p className="text-text_primary">Work in progress...</p>
         </div>
       </div>
     </div>

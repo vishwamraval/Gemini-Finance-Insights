@@ -1,6 +1,8 @@
 // Register user page
 import { useState } from "react";
 import { router } from "../main.tsx";
+import Modal from "@mui/material/Modal";
+import Terms from "../components/terms.tsx";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -18,6 +20,8 @@ export default function Register() {
     acceptTnc: false,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleChange = (e: {
     target: { name: any; value: any; type: any; checked: any };
   }) => {
@@ -30,7 +34,20 @@ export default function Register() {
 
   const handleRegister = () => {
     console.log("Register button clicked");
-
+    // check if form is valid
+    if (!formValues.acceptTnc) {
+      console.error("Please accept the terms and conditions");
+      return;
+    }
+    if (
+      formValues.email === "" ||
+      formValues.password === "" ||
+      formValues.firstName === "" ||
+      formValues.lastName === ""
+    ) {
+      console.error("Please fill in all fields");
+      return;
+    }
     // Validate form values here if needed
     if (formValues.password !== formValues.confirmPassword) {
       console.error("Passwords do not match");
@@ -47,6 +64,14 @@ export default function Register() {
 
     // Route to login
     router.navigate("/login");
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -142,24 +167,38 @@ export default function Register() {
           />
         </div>
         {/* Accept T&C */}
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 px-1">
           <input
             name="acceptTnc"
             id="link-checkbox"
             type="checkbox"
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            className="w-5 h-5 rounded border border-gray-300 checked:bg-primary checked:border-transparent focus:outline-none focus:ring-2 focus:ring-primary dark:checked:bg-primary dark:focus:ring-offset-gray-800 dark:focus:ring-primary"
             checked={formValues.acceptTnc}
             onChange={handleChange}
           />
+
           <label
             htmlFor="link-checkbox"
             className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             I agree with the{" "}
-            <a href="#" className="text-text_primary dark hover:underline">
-              Terms and Conditions
-            </a>
-            .
+            <span
+              className="text-text_primary cursor-pointer 
+            weight-bold hover:underline decoration-dotted
+            "
+              onClick={openModal}
+            >
+              {"Terms and Conditions"}
+            </span>
+            <Modal
+              open={isModalOpen}
+              onClose={closeModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center"
+            >
+              <Terms />
+            </Modal>
           </label>
         </div>
         {/* Register Button */}
