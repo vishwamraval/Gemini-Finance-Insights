@@ -8,7 +8,11 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ 
   model: process.env.GEMINI_MODEL, 
   systemInstruction:"You are a financial advisor. Your name is Sage.",
-});
+},
+{
+  apiVersion: "v1beta",
+}
+);
 async function run() {
     const chat = model.startChat({
       history: [
