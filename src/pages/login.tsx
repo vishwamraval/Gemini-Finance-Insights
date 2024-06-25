@@ -62,6 +62,14 @@ export default function Login() {
         >
           Login
         </button>
+        {/* Google Sign in */}
+        <button
+          className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors mt-4"
+          onClick={loginWithGoogle}
+        >
+          <FontAwesomeIcon icon={faGoogle} className="mr-2" />
+          Login with Google
+        </button>
         {/* Forgot Password */}
         <p className="text-center mt-4 text-text_primary">
           <span
@@ -86,13 +94,7 @@ export default function Login() {
             Register
           </span>
         </p>
-        <button
-          className="w-full bg-accent text-white p-3 rounded-lg hover:accent_light transition-colors mt-4"
-          onClick={loginWithGoogle}
-        >
-          <FontAwesomeIcon icon={faGoogle} className="mr-2" />
-          Login with Google
-        </button>
+       
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function Navbar() {
         </button>
         <button
           className="bg-secondary text-text_primary px-6 py-3 rounded-lg hover:bg-accent hover:text-white duration-300"
-          onClick={() => router.navigate("/login")}
+          onClick={() => router.navigate("/register")}
         >
           Register
         </button>

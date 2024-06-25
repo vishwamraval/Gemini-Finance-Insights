@@ -5,6 +5,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 
 export default function Register() {
@@ -37,7 +38,12 @@ export default function Register() {
     }
 
     // Register the user
-    registerUser(formValues.email, formValues.password);
+    registerUser(
+      formValues.email,
+      formValues.password,
+      formValues.firstName,
+      formValues.lastName
+    );
 
     // Route to login
     router.navigate("/login");
@@ -168,25 +174,41 @@ export default function Register() {
   );
 }
 
-async function registerUser(email: string, password: string) {
+async function registerUser(
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string
+) {
   const auth = getAuth();
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      // Save first name, last name, etc. to user profile
-      console.log(user);
-      // send email verification
-      sendEmailVerification(user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      console.log(errorCode);
-      const errorMessage = error.message;
-      if (errorCode === "auth/email-already-in-use") {
-        console.error("Email already in use");
-      } else {
-        console.error(errorMessage);
-      }
-    });
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    // Update user profile with first name and last name
+    const currentUser = auth.currentUser;
+    if (currentUser !== null) {
+      await updateProfile(currentUser, {
+        displayName: `${firstName} ${lastName}`,
+      });
+    }
+
+    // Send email verification
+    sendEmailVerification(user);
+    console.log("Email verification sent");
+
+    console.log(user);
+    console.log("User registered successfully");
+    console.log("Display Name: ", user.displayName);
+  } catch (error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(
+      `Registration failed with error code ${errorCode}: ${errorMessage}`
+    );
+  }
 }

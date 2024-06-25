@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import Dashboard from "./pages/dashboard.tsx";
@@ -56,10 +55,11 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+} else {
+  throw new Error("Root element not found.");
+}
 
 export { router };
